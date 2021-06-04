@@ -24,20 +24,19 @@ app.get("/api/:date?", (req, res) => {
         res.json({ unix, utc });
         return;
     }
-    if (param.includes("-")) {
+    if (isNaN(+param)) {
         if (new Date(param).toString() === "Invalid Date")
             return res.json({ error: "Invalid Date" });
         const date = new Date(param);
         unix = date.getTime();
         utc = date.toUTCString();
     } else {
-        if (new Date(parseInt(param * 1)).toString() === "Invalid Date")
+        if (new Date(+param).toString() === "Invalid Date")
             return res.json({ error: "Invalid Date" });
-        const date = new Date(parseInt(param));
-        unix = parseInt(param);
+        const date = new Date(+param);
+        unix = +param;
         utc = date.toUTCString();
     }
-    // res.json({ unix: unix, utc: utc });
     res.json({ unix, utc });
 });
 
